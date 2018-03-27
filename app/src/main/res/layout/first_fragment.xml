@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context="com.production.outlau.translate.MainFragmentActivity">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/input_lang_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/language_border"
+            android:padding="10dp"
+            android:text="English"
+            android:textAlignment="center"
+            android:textColor="@color/textcolor"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="5dp"
+        android:paddingTop="10dp"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/input_edittext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".65"
+            android:ems="10"
+            android:hint="Enter Text"
+            android:inputType="text"
+            android:textColor="@color/textcolor"
+            android:textColorHint="@color/hintcolor"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/input_copy"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|clip_horizontal"
+            android:layout_weight=".15"
+            android:background="@color/background"
+            android:src="@drawable/copy_icon" />
+
+        <Button
+            android:id="@+id/input_clear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".2"
+            android:backgroundTint="@android:color/background_light"
+            android:text="Clear" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <Button
+            android:id="@+id/lang_swap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/white"
+            android:text="SWAP" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <TextView
+            android:id="@+id/output_lang_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/language_border"
+            android:padding="10dp"
+            android:text="Swedish"
+            android:textAlignment="center"
+            android:textColor="@color/textcolor"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+
+    </TableRow>
+
+
+    <LinearLayout
+        android:id="@+id/expand_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/output_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bottom_border"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:hint="Translation"
+            android:maxLines="2"
+            android:paddingTop="10dp"
+            android:scrollbars="vertical"
+            android:textColor="@color/textcolor"
+            android:textColorHint="@color/hintcolor"
+            android:textSize="25sp" />
+
+        <Button
+            android:paddingTop="5dp"
+            android:id="@+id/addpair_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/white"
+            android:text="Add Pair" />
+
+    </LinearLayout>
+
+    <TableRow
+        android:id="@+id/addpair_cont"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".1">
+
+        <TableRow
+            android:id="@+id/output_cont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        </TableRow>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
+
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TableRow>
+
+</TableLayout>
