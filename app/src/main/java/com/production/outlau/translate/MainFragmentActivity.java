@@ -12,10 +12,27 @@ import android.view.inputmethod.InputMethodManager;
 
 public class MainFragmentActivity extends FragmentActivity {
 
+    public static SharedPreferences sp;
+    public static SharedPreferences.Editor editor;
+
+    public static String defaultLang = "en";
+    public static String secondLang = "sv";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slide);
+
+        sp = getApplicationContext().getSharedPreferences("MyPref", 0);
+        editor = sp.edit();
+
+
+        String defaultLangStr = sp.getString("defaultLang", "en");
+
+        if(defaultLangStr.matches("sv"))
+            switchLangs();
+
+        System.out.println("DEFAULT : "+defaultLangStr);
 
         final ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
@@ -70,6 +87,14 @@ public class MainFragmentActivity extends FragmentActivity {
         }
 
 
+    }
+
+    public static void switchLangs(){
+        String tempLang = defaultLang;
+        defaultLang = secondLang;
+        secondLang = tempLang;
+        editor.putString("defaultLang", defaultLang);
+        editor.commit();
     }
 
     public static void copyToClipboard(Context context, String text) {

@@ -36,8 +36,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 public class FirstFragment extends Fragment {
-    SharedPreferences sp;
-    SharedPreferences.Editor editor;
 
     static EditText input;
     static TextView output;
@@ -57,10 +55,6 @@ public class FirstFragment extends Fragment {
 
     AppDatabase db;
 
-    static String inputLanguage = "sv";
-
-    static String outputLanguage = "en";
-
     InputMethodManager imm;
 
     View layout;
@@ -70,8 +64,7 @@ public class FirstFragment extends Fragment {
         layout = inflater.inflate(R.layout.first_fragment, container, false);
 
         db = new AppDatabase(getActivity());
-        sp = getActivity().getSharedPreferences("MyPref", 0);
-        editor = sp.edit();
+
         imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         input = (EditText)layout.findViewById(R.id.input_edittext);
@@ -84,23 +77,14 @@ public class FirstFragment extends Fragment {
         outputTextView = (TextView)layout.findViewById(R.id.output_lang_text);
         expandCont = (LinearLayout)layout.findViewById(R.id.expand_container);
 
-
-        System.out.println("TETEESST "+sp.getString("defaultLang", null));
-
-
-        if(sp.getString("defaultLang", null).matches("sv")){
-            inputLanguage = "sv";
-            outputLanguage = "en";
-        }else{
-            inputLanguage = "en";
-            outputLanguage = "sv";
-        }
-
         updateTextUI();
+
         langSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchTexts();
+                MainFragmentActivity.switchLangs();
+                updateTextUI();
+                SecondFragment.updateTextUI();
             }
         });
 
@@ -132,7 +116,7 @@ public class FirstFragment extends Fragment {
             public void afterTextChanged(final Editable s) {
                 String inputText = input.getText().toString();
                 //String[] splitInput = inputText.split(" ");
-                translator.translate(inputLanguage,outputLanguage,input.getText().toString(),getActivity(),output);
+                translator.translate(MainFragmentActivity.defaultLang,MainFragmentActivity.secondLang,input.getText().toString(),getActivity(),output);
             }
         });
 
@@ -168,18 +152,9 @@ public class FirstFragment extends Fragment {
         return layout;
     }
 
-    public static void switchTexts(){
-        String inputLang = inputLanguage;
-        inputLanguage = outputLanguage;
-        outputLanguage = inputLang;
-        updateTextUI();
-    }
-
-    private static void updateTextUI(){
-        inputTextView.setText(Globals.languages.get(inputLanguage));
-        outputTextView.setText(Globals.languages.get(outputLanguage));
-        System.out.println("input " +inputTextView.getText());
-        System.out.println("output " +outputTextView.getText());
+    public static void updateTextUI(){
+        inputTextView.setText(Globals.languages.get(MainFragmentActivity.defaultLang));
+        outputTextView.setText(Globals.languages.get(MainFragmentActivity.secondLang));
         input.setText(output.getText().toString());
     }
 
@@ -250,7 +225,7 @@ public class FirstFragment extends Fragment {
                             String inputText = input.getText().toString();
                             String outputText = output.getText().toString();
                             if(!inputText.isEmpty() && inputText.trim().length() > 0) {
-                                addWordPair(inputText, outputText, inputLanguage);
+                                addWordPair(inputText, outputText, MainFragmentActivity.defaultLang);
                             }
                         }
                         moving = false;

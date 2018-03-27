@@ -77,7 +77,7 @@ public class ListProvider implements RemoteViewsFactory {
         list.clear();
 
         AppDatabase db = new AppDatabase(context);
-        Hashtable<String,String> dbWords = db.getWords("en");
+        Hashtable<String,String> dbWords = db.getWords("sv");
 
         ArrayList<String> tempList = new ArrayList<>();
 

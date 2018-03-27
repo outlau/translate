@@ -20,9 +20,6 @@ import java.util.zip.Inflater;
 
 public class SecondFragment extends ListFragment {
 
-    static SharedPreferences sp;
-    static SharedPreferences.Editor editor;
-
     static AppDatabase db;
 
     static ListViewAdapter adapter;
@@ -32,63 +29,37 @@ public class SecondFragment extends ListFragment {
     private static TextView leftLang;
     private static TextView rightLang;
 
-    private static String defaultLang = "en";
-    private static String secondLang = "sv";
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = View.inflate(getActivity(), R.layout.list_head_inflater, null);
 
-        sp = getActivity().getSharedPreferences("MyPref", 0);
-        editor = sp.edit();
         db = new AppDatabase(getActivity());
-
 
         leftLang = (TextView)v.findViewById(R.id.lang_left);
         rightLang = (TextView)v.findViewById(R.id.lang_right);
         leftLang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchDefaultLang(false);
+                MainFragmentActivity.switchLangs();
+                updateTextUI();
+                FirstFragment.updateTextUI();
             }
         });
         rightLang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchDefaultLang(false);
+                MainFragmentActivity.switchLangs();
+                updateTextUI();
+                FirstFragment.updateTextUI();
             }
         });
-        System.out.println(sp.getString("defaultLang", null));
 
-        String defaultLangStr = sp.getString("defaultLang", null);
-
-        if (defaultLangStr != null){
-            if (sp.getString("defaultLang", null).matches("en")) {
-
-            } else {
-                switchDefaultLang(true);
-            }
-        }
-        else{
-            editor.putString("defaultLang","en");
-        }
         return v;
     }
 
-    public static void switchDefaultLang(boolean init){
-        if(!init)
-            FirstFragment.switchTexts();
-
-        String tempLang = defaultLang;
-        defaultLang = secondLang;
-        secondLang = tempLang;
-
-        editor.putString("defaultLang", defaultLang);
-        editor.commit();
-
-        leftLang.setText(Globals.languages.get(defaultLang).toString().toUpperCase());
-        rightLang.setText(Globals.languages.get(secondLang).toString().toUpperCase());
+    public static void updateTextUI(){
+        leftLang.setText(Globals.languages.get(MainFragmentActivity.defaultLang).toString().toUpperCase());
+        rightLang.setText(Globals.languages.get(MainFragmentActivity.secondLang).toString().toUpperCase());
 
         if(list != null)
             createWordPairList();
@@ -106,7 +77,7 @@ public class SecondFragment extends ListFragment {
                 builder.setTitle("Are you sure you want to delete this word?");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        db.deleteValue(list.get(pos).leftWord, defaultLang);
+                        db.deleteValue(list.get(pos).leftWord, MainFragmentActivity.defaultLang);
                         list.remove(pos);
                         adapter.notifyDataSetChanged();
                         Widget.updateWidget(getActivity());
@@ -128,13 +99,13 @@ public class SecondFragment extends ListFragment {
         adapter = new ListViewAdapter(getActivity(),
                 list);
         setListAdapter(adapter);
-        createWordPairList();
+        updateTextUI();
     }
 
     public static void createWordPairList() {
         list.clear();
 
-        Hashtable<String,String> dbWords = db.getWords(defaultLang);
+        Hashtable<String,String> dbWords = db.getWords(MainFragmentActivity.defaultLang);
 
         ArrayList<String> tempList = new ArrayList<>();
 
