@@ -5,6 +5,39 @@
     android:orientation="vertical"
     android:weightSum="1">
 
+    <com.production.outlau.translate.CustomTextView
+        android:id="@+id/output_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bottom_border"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="left"
+        android:hint="Translation"
+        android:maxLines="2"
+        android:paddingTop="10dp"
+        android:scrollbars="vertical"
+        android:textColor="@color/edit_text"
+        android:textColorHint="?android:hint"
+        android:textSize="25sp" />
+
+    <com.production.outlau.translate.CustomButton
+        style="@style/customButton"
+        android:textColor="@color/button_text"
+        android:paddingTop="5dp"
+        android:id="@+id/addpair_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/white"
+        android:text="Add Pair" />
+
+
+
+</LinearLayout>
+<!--
     <TextView
         android:id="@+id/output_text"
         android:layout_width="match_parent"
@@ -30,5 +63,4 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/white"
         android:text="Add Pair" />
-
-</LinearLayout>
+-->

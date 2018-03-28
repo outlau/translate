@@ -1,12 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#35383e</color>
     <color name="colorPrimaryDark">#232529</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorBackground">#102733</color>
+
     <color name="lightGrey">#dce4e4e4</color>
     <color name="black">#000000</color>
     <color name="main">#6c8cf5</color>
-    <color name="background">#f1f1f1</color>
-    <color name="hintcolor">#ababab</color>
-    <color name="textcolor">#35383e</color>
+
+
+    <color name="titles_text">#102733</color>
+    <color name="edit_text">#e5e3ff</color>
+    <color name="button_text">#e5e3ff</color>
+
+
+    <color name="background">#102733</color>
+    <color name="text">#e5e3ff</color>
+
+    <color name="dark_hint_color">#ababab</color>
+
+    <color name="light_hint_color">#245269</color>
+
+
+    <color name="anim_color">#60737b</color>
+
+    <color name="dark_background">#081419</color>
+
+
+    <color name="transparent_white">#cdc1c6fc</color>
+    <color name="transparent">#00ffffff</color>
+
+    <color name="button">#3498db</color>
+
 </resources>

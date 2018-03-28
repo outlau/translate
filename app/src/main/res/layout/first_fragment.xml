@@ -1,4 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.production.outlau.translate.MainFragmentActivity">
+
+
+    <com.production.outlau.translate.CustomTextView
+        android:id="@+id/input_lang_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:background="@drawable/language_border"
+        android:padding="10dp"
+        android:text="English"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:textStyle="bold"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingTop="10dp"
+        android:weightSum="1">
+
+        <com.production.outlau.translate.CustomEditText
+            android:id="@+id/input_edittext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".9"
+            android:ems="10"
+            android:hint="Enter Text"
+            android:inputType="text"
+            android:textColor="?android:colorPrimary"
+            android:textColorHint="?android:hint"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/input_copy"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|clip_horizontal"
+            android:layout_weight=".1"
+            android:background="@color/transparent"
+            android:src="@drawable/icon_copy" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:id="@+id/addpair_button"
+                android:background="@color/transparent"
+                android:src="@drawable/icon_add"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:id="@+id/lang_swap"
+                android:background="@color/transparent"
+                android:src="@drawable/icon_swap"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:id="@+id/input_clear"
+                android:background="@color/transparent"
+                android:src="@drawable/icon_clear"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <com.production.outlau.translate.CustomTextView
+        android:id="@+id/output_lang_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:background="@drawable/language_border"
+        android:padding="10dp"
+        android:text="Swedish"
+        android:textColor="?android:colorPrimary"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+
+    <LinearLayout
+        android:id="@+id/expand_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <com.production.outlau.translate.CustomTextView
+            android:id="@+id/output_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bottom_border"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="left"
+            android:hint="Translation"
+            android:textColor="?android:colorPrimary"
+            android:maxLines="2"
+            android:paddingTop="10dp"
+            android:scrollbars="vertical"
+            android:textColorHint="?android:hint"
+            android:textSize="25sp" />
+
+
+
+    </LinearLayout>
+
+    <TableRow
+        android:id="@+id/addpair_cont"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".1">
+
+        <TableRow
+            android:id="@+id/output_cont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        </TableRow>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
+
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TableRow>
+
+</LinearLayout>
+<!--<?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,7 +189,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <com.production.outlau.translate.CustomTextView
             android:id="@+id/input_lang_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,19 +200,19 @@
             android:padding="10dp"
             android:text="English"
             android:textAlignment="center"
-            android:textColor="@color/textcolor"
+            android:textColor="@color/text"
             android:textSize="25sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
     </TableRow>
 
     <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:paddingBottom="5dp"
         android:paddingTop="10dp"
         android:weightSum="1">
 
-        <EditText
+        <com.production.outlau.translate.CustomEditText
             android:id="@+id/input_edittext"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -41,8 +220,8 @@
             android:ems="10"
             android:hint="Enter Text"
             android:inputType="text"
-            android:textColor="@color/textcolor"
-            android:textColorHint="@color/hintcolor"
+            android:textColor="@color/edit_text"
+            android:textColorHint="@color/text"
             android:textSize="20sp" />
 
         <ImageButton
@@ -54,29 +233,40 @@
             android:background="@color/background"
             android:src="@drawable/copy_icon" />
 
-        <Button
+        <com.production.outlau.translate.CustomButton
             android:id="@+id/input_clear"
+            style="@style/customButtonLight"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".2"
-            android:backgroundTint="@android:color/background_light"
-            android:text="Clear" />
+            android:backgroundTint="@color/button"
+            android:text="Clear"
+            android:textColor="@color/button_text" />
 
     </TableRow>
 
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        android:layout_height="100dp">
 
-        <Button
+
+        <com.production.outlau.translate.CustomButton
             android:id="@+id/lang_swap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/customButton"
             android:layout_weight="1"
             android:backgroundTint="@android:color/white"
-            android:text="SWAP" />
+            android:text="SWAP"
+            android:textColor="@color/button_text" />
+
+        <com.production.outlau.translate.CustomButton
+        android:id="@+id/addpair_button"
+        style="@style/customButton"
+        android:layout_weight="1"
+        android:backgroundTint="@android:color/white"
+        android:text="SWAP"
+        android:textColor="@color/button_text" />
+
+
 
     </TableRow>
 
@@ -86,7 +276,7 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
-        <TextView
+        <com.production.outlau.translate.CustomTextView
             android:id="@+id/output_lang_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,7 +287,7 @@
             android:padding="10dp"
             android:text="Swedish"
             android:textAlignment="center"
-            android:textColor="@color/textcolor"
+            android:textColor="@color/text"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -112,7 +302,7 @@
         android:orientation="vertical"
         android:weightSum="1">
 
-        <TextView
+        <com.production.outlau.translate.CustomTextView
             android:id="@+id/output_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -122,21 +312,16 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/bottom_border"
             android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="left"
             android:hint="Translation"
             android:maxLines="2"
             android:paddingTop="10dp"
             android:scrollbars="vertical"
-            android:textColor="@color/textcolor"
-            android:textColorHint="@color/hintcolor"
+            android:textColor="@color/edit_text"
+            android:textColorHint="@color/hint_color"
             android:textSize="25sp" />
 
-        <Button
-            android:paddingTop="5dp"
-            android:id="@+id/addpair_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/white"
-            android:text="Add Pair" />
+
 
     </LinearLayout>
 
@@ -170,3 +355,4 @@
     </TableRow>
 
 </TableLayout>
+-->
