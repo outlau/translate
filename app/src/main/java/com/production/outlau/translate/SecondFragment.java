@@ -78,10 +78,8 @@ public class SecondFragment extends ListFragment {
             public boolean onItemLongClick(AdapterView<?> av, View v, int position, long id) {
                 final int pos = position;
 
-
-
                 final Dialog customDialog = new Dialog(getActivity());
-                customDialog.setContentView(R.layout.delete_word_inflater);
+                customDialog.setContentView(R.layout.dialog_confirm_inflater);
                 Window window = customDialog.getWindow();
                 window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT,      WindowManager.LayoutParams.WRAP_CONTENT);    window.setGravity(Gravity.CENTER);
 
@@ -92,8 +90,8 @@ public class SecondFragment extends ListFragment {
 
                 window.setBackgroundDrawable(new ColorDrawable(color));
 
-                TextView cancel = (TextView)customDialog.findViewById(R.id.delete_word_cancel);
-                TextView accept = (TextView)customDialog.findViewById(R.id.delete_word_accept);
+                TextView cancel = (TextView)customDialog.findViewById(R.id.dialog_cancel);
+                TextView accept = (TextView)customDialog.findViewById(R.id.dialog_accept);
 
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -113,30 +111,8 @@ public class SecondFragment extends ListFragment {
                     }
                 });
 
+                customDialog.show();
 
-
-/*
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Are you sure you want to delete this word?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        db.deleteValue(list.get(pos).leftWord, MainFragmentActivity.defaultLang);
-                        list.remove(pos);
-                        adapter.notifyDataSetChanged();
-                        Widget.updateWidget(getActivity());
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-
-                */
-customDialog.show();
                 return true;
             }
 

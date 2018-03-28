@@ -25,6 +25,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.TypedValue;
 import android.view.DragEvent;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,6 +56,7 @@ public class FirstFragment extends Fragment {
     ImageButton inputClearButton;
     ImageButton addPairButton;
     ImageButton inputCopy;
+    ImageButton navBarToggleButton;
 
     static TextView inputTextView;
     static TextView outputTextView;
@@ -109,6 +111,7 @@ public class FirstFragment extends Fragment {
         inputTextView = (TextView)layout.findViewById(R.id.input_lang_text);
         outputTextView = (TextView)layout.findViewById(R.id.output_lang_text);
         expandCont = (LinearLayout)layout.findViewById(R.id.expand_container);
+        navBarToggleButton = (ImageButton)layout.findViewById(R.id.nav_bar_toggle_button);
 
 
         /*
@@ -220,6 +223,14 @@ public class FirstFragment extends Fragment {
                      addWordPairAnim(new ArrayList<>(animations));
                  }
              }
+        });
+
+        onTouchListen(navBarToggleButton);
+        navBarToggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainFragmentActivity.drawer.openDrawer(Gravity.LEFT);
+            }
         });
 /*
                     An

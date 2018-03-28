@@ -15,6 +15,13 @@
         <item name="android:statusBarColor">@color/background</item>
         <item name="android:colorForeground">@color/text</item>
         <item name="android:hint">@color/dark_hint_color</item>
+
+
+        <item name="changeThemeText">@string/change_to_light</item>
+        <item name="changeThemeImg">@drawable/icon_bright</item>
+
+        <item name="themeName">@string/darkThemeName</item>
+
     </style>
 
     <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
@@ -31,6 +38,14 @@
         <item name="android:statusBarColor">@color/background</item>
         <item name="android:colorForeground">@color/background</item>
         <item name="android:hint">@color/light_hint_color</item>
+
+
+        <item name="changeThemeText">@string/change_to_dark</item>
+        <item name="changeThemeImg">@drawable/icon_dark</item>
+
+
+        <item name="themeName">@string/lightThemeName</item>
+
     </style>
 
 

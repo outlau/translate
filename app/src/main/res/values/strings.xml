@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">Translate</string>
     <string name="tile">Translate</string>
+
+    <string name="openNavBar">Open Nav Bar</string>
+    <string name="closeNavBar">Close Nav Bar</string>
+
+
+    <string name="change_to_dark">Switch to dark theme</string>
+    <string name="change_to_light">Switch to light theme</string>
+
+
+    <string name="darkThemeName">dark</string>
+    <string name="lightThemeName">light</string>
+
 </resources>

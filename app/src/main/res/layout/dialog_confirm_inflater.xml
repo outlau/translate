@@ -34,7 +34,7 @@
         </com.production.outlau.translate.CustomTextView>
 
         <com.production.outlau.translate.CustomTextView
-            android:id="@+id/delete_word_cancel"
+            android:id="@+id/dialog_cancel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -49,7 +49,7 @@
     </com.production.outlau.translate.CustomTextView>
 
         <com.production.outlau.translate.CustomTextView
-            android:id="@+id/delete_word_accept"
+            android:id="@+id/dialog_accept"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"

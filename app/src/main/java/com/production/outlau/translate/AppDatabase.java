@@ -109,5 +109,11 @@ public class AppDatabase extends SQLiteOpenHelper {
         db.execSQL("delete from "+TABLE_WORDS+" where "+col+"='"+val+"'");
         db.close();
     }
+
+    public void deleteAllInTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_WORDS, null, null);
+        db.close();
+    }
 }
 

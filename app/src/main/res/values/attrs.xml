@@ -4,4 +4,8 @@
     <declare-styleable name="CustomTextView">
         <attr name="font" format="string"/>
     </declare-styleable>
+
+    <attr name="changeThemeImg" format="reference"/>
+    <attr name="changeThemeText" format="reference"/>
+    <attr name="themeName" format="reference"/>
 </resources>
