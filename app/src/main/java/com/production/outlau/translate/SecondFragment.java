@@ -1,14 +1,22 @@
 package com.production.outlau.translate;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AlertDialog;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,6 +34,8 @@ public class SecondFragment extends ListFragment {
 
     static ArrayList<WordPair> list;
 
+    private TextView listLangSwap;
+
     private static TextView leftLang;
     private static TextView rightLang;
 
@@ -37,15 +47,9 @@ public class SecondFragment extends ListFragment {
 
         leftLang = (TextView)v.findViewById(R.id.lang_left);
         rightLang = (TextView)v.findViewById(R.id.lang_right);
-        leftLang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainFragmentActivity.switchLangs();
-                updateTextUI();
-                FirstFragment.updateTextUI();
-            }
-        });
-        rightLang.setOnClickListener(new View.OnClickListener() {
+        listLangSwap = (TextView)v.findViewById(R.id.list_lang_swap);
+
+        listLangSwap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainFragmentActivity.switchLangs();
@@ -73,6 +77,46 @@ public class SecondFragment extends ListFragment {
 
             public boolean onItemLongClick(AdapterView<?> av, View v, int position, long id) {
                 final int pos = position;
+
+
+
+                final Dialog customDialog = new Dialog(getActivity());
+                customDialog.setContentView(R.layout.delete_word_inflater);
+                Window window = customDialog.getWindow();
+                window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT,      WindowManager.LayoutParams.WRAP_CONTENT);    window.setGravity(Gravity.CENTER);
+
+                TypedValue typedValue = new TypedValue();
+                Resources.Theme theme = getActivity().getTheme();
+                theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
+                @ColorInt int color = typedValue.data;
+
+                window.setBackgroundDrawable(new ColorDrawable(color));
+
+                TextView cancel = (TextView)customDialog.findViewById(R.id.delete_word_cancel);
+                TextView accept = (TextView)customDialog.findViewById(R.id.delete_word_accept);
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        customDialog.dismiss();
+                    }
+                });
+
+                accept.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        db.deleteValue(list.get(pos).leftWord, MainFragmentActivity.defaultLang);
+                        list.remove(pos);
+                        adapter.notifyDataSetChanged();
+                        Widget.updateWidget(getActivity());
+                        customDialog.dismiss();
+                    }
+                });
+
+
+
+/*
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Are you sure you want to delete this word?");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -90,6 +134,9 @@ public class SecondFragment extends ListFragment {
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
+
+                */
+customDialog.show();
                 return true;
             }
 

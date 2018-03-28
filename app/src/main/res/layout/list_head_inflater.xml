@@ -1,60 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:orientation="vertical">
 
-    <TableLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal">
+        android:layout_height="80dp">
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2">
+        <TextView
+            android:id="@+id/list_lang_swap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:colorPrimary"
+            android:text=" "
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"/>
 
-            <TextView
-                android:id="@+id/lang_left"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/background"
-                android:gravity="center_horizontal"
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp"
-                android:text="ENGLISH"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/lang_right"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/background"
-                android:gravity="center_horizontal"
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp"
-                android:text="SWEDISH"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-        </TableRow>
-
-        <TableRow
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ListView
-                android:id="@android:id/list"
+            <com.production.outlau.translate.CustomTextView
+                android:id="@+id/lang_left"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
-        </TableRow>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:text="ENGLISH"
+                android:textColor="?android:colorBackground"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:clickable="false" />
 
-    </TableLayout>
+            <com.production.outlau.translate.CustomTextView
+                android:id="@+id/lang_right"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:text="SWEDISH"
+                android:textColor="?android:colorBackground"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:clickable="false" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
 </LinearLayout>

@@ -38,7 +38,7 @@ public class ListProvider implements RemoteViewsFactory {
     @Override
     public RemoteViews getViewAt(int position) {
         final RemoteViews remoteView = new RemoteViews(
-                context.getPackageName(), R.layout.list_inflater);
+                context.getPackageName(), R.layout.widget_list_inflater);
         WordPair listItem = list.get(position);
         remoteView.setTextViewText(R.id.list_left, listItem.leftWord);
         remoteView.setTextViewText(R.id.list_right, listItem.rightWord);
