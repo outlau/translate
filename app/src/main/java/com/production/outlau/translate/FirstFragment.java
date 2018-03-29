@@ -40,6 +40,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RemoteViews;
+import android.widget.ScrollView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -52,6 +53,8 @@ public class FirstFragment extends Fragment {
 
     static EditText input;
     static TextView output;
+    TextView bottomBorder;
+    int initScrollViewHeight;
     ImageButton langSwitch;
     ImageButton inputClearButton;
     ImageButton addPairButton;
@@ -62,8 +65,6 @@ public class FirstFragment extends Fragment {
     static TextView outputTextView;
 
     boolean checkAdded = false;
-
-    LinearLayout expandCont;
 
     static Translator translator = new Translator();
 
@@ -77,28 +78,20 @@ public class FirstFragment extends Fragment {
 
     Handler onTouchTimerHandler;
 
-
-
-
+    ScrollView scrollView;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         layout = inflater.inflate(R.layout.first_fragment, container, false);
-
 
         db = new AppDatabase(getActivity());
 
         onTouchTimerHandler = new Handler();
 
-
         animations = new ArrayList<>();
         animations.add(R.anim.add_rotate);
         animations.add(R.anim.add_scaledown);
         animations.add(R.anim.add_scaleup);
-        System.out.println("add_rotate " +R.anim.add_rotate);
-        System.out.println("add_scaledown " +R.anim.add_scaledown);
-        System.out.println("add_scaleup" +R.anim.add_scaleup);
 
         imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -110,27 +103,11 @@ public class FirstFragment extends Fragment {
         inputCopy = (ImageButton)layout.findViewById(R.id.input_copy);
         inputTextView = (TextView)layout.findViewById(R.id.input_lang_text);
         outputTextView = (TextView)layout.findViewById(R.id.output_lang_text);
-        expandCont = (LinearLayout)layout.findViewById(R.id.expand_container);
         navBarToggleButton = (ImageButton)layout.findViewById(R.id.nav_bar_toggle_button);
-
-
-        /*
-
-        onTouchListen(addPairButton);
-        onTouchListen(langSwitch);
-        onTouchListen(inputClearButton);
-
-        onTouchListen(inputCopy);
-
-        onTouchListen(output);
-
-*/
-
-
-
+        bottomBorder = (TextView)layout.findViewById(R.id.bottom_border);
+        scrollView = (ScrollView)layout.findViewById(R.id.scroll_view);
 
         updateTextUI();
-
 
         onTouchListen(langSwitch);
         langSwitch.setOnClickListener(new View.OnClickListener() {
@@ -147,11 +124,10 @@ public class FirstFragment extends Fragment {
         input.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                scrollView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,initScrollViewHeight));
                 if(Globals.expanded) {
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                     input.setFocusableInTouchMode(true);
                     input.setFocusable(true);
-                    resetExpandCont();
                     Globals.expanded = false;
                 }
             }
@@ -193,12 +169,7 @@ public class FirstFragment extends Fragment {
             }
         });
 
-        output.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainFragmentActivity.copyToClipboard(getActivity(),output.getText().toString());
-            }
-        });
+        onTouchExpand(bottomBorder);
         output.setMovementMethod(new ScrollingMovementMethod());
 
         onTouchListen(inputCopy);
@@ -218,7 +189,7 @@ public class FirstFragment extends Fragment {
              public void onClick(View v) {
                  String inputText = input.getText().toString();
                  String outputText = output.getText().toString();
-                 if (!inputText.isEmpty() && inputText.trim().length() > 0 && !checkAdded) {
+                 if (!inputText.isEmpty() && inputText.trim().length() > 0 && !checkAdded && !translator.getIsMyAsyncTaskRunning()) {
                      addWordPair(inputText, outputText, MainFragmentActivity.defaultLang);
                      addWordPairAnim(new ArrayList<>(animations));
                  }
@@ -232,47 +203,6 @@ public class FirstFragment extends Fragment {
                 MainFragmentActivity.drawer.openDrawer(Gravity.LEFT);
             }
         });
-/*
-                    An
-                    addPairButton.
-                            animate().
-                            rotation(45).
-                            setDuration(100).
-                            scaleX(0.1f).
-                            scaleY(0.1f).
-                            setDuration(100).
-                            scaleX(1f).
-                            scaleY(1f).
-                            rotation(0).
-                            setDuration(100);
-                            */
-                            /*
-                            setListener(new AnimatorListenerAdapter() {
-                                @Override
-                                public void onAnimationEnd(Animator animation){
-                                    addPairButton.
-                                            animate().
-                                            scaleX(0.1f).
-                                            scaleY(0.1f).
-                                            setDuration(100).
-                                            setListener(new AnimatorListenerAdapter() {
-                                                @Override
-                                                public void onAnimationEnd(Animator animation) {
-                                                    System.out.println("CHECH");
-                                                    addPairButton.setImageDrawable(getResources().getDrawable(R.drawable.icon_check,null));
-                                                    addPairButton.
-                                                            animate().
-                                                            scaleX(1f).
-                                                            scaleY(1f).
-                                                            rotation(0).
-                                                            setDuration(100);
-                                                    checkAdded = true;
-                                                }
-                                            });
-
-                                }
-                            });
-                            */
 
         return layout;
     }
@@ -280,9 +210,6 @@ public class FirstFragment extends Fragment {
     private void addWordPairAnim(ArrayList<Integer> anims){
         final int anim = anims.remove(0);
         final ArrayList<Integer> animList = anims;
-        System.out.println("anim : "+anim);
-        System.out.println("animList : "+animList);
-
 
         Animation animation =
                 AnimationUtils.loadAnimation(getActivity(), anim);
@@ -306,13 +233,11 @@ public class FirstFragment extends Fragment {
         });
     }
 
-
     public static void updateTextUI(){
         inputTextView.setText(Globals.languages.get(MainFragmentActivity.defaultLang));
         outputTextView.setText(Globals.languages.get(MainFragmentActivity.secondLang));
         input.setText(output.getText().toString());
     }
-
 
     private void onTouchListen(final View view) {
         view.setOnTouchListener(new View.OnTouchListener() {
@@ -331,7 +256,6 @@ public class FirstFragment extends Fragment {
 
                         pressed = true;
 
-                        System.out.println("ACTION DOWN");
                         try {
                             im = (ImageButton) view;
                             im.setColorFilter(R.color.anim_color);
@@ -348,7 +272,6 @@ public class FirstFragment extends Fragment {
                         };
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        System.out.println("ACTION MOVE");
                         onTouchTimerHandler.removeCallbacks(onTouchTimerRunnable);
                         onTouchTimerHandler.postDelayed(onTouchTimerRunnable,500);
                         break;
@@ -360,7 +283,6 @@ public class FirstFragment extends Fragment {
                         onTouchTimerHandler.removeCallbacks(onTouchTimerRunnable);
 
                         break;
-
                     default:
                         return false;
                 }
@@ -374,7 +296,6 @@ public class FirstFragment extends Fragment {
         if(im != null)
             animate(im);
 
-        System.out.println("ACTION UP NO CLICK");
     }
 
     private void actionUp(View viewToClick, View touched, ImageButton im){
@@ -383,84 +304,45 @@ public class FirstFragment extends Fragment {
             animate(im);
 
         viewToClick.performClick();
-        System.out.println("ACTION UP");
     }
 
-
-
-    /*
-    private void onTouchExpand(View view) {
+    private void onTouchExpand(final View view) {
         view.setOnTouchListener(new View.OnTouchListener() {
-            float touchPoint;
-            boolean moving;
-            float x;
-            float y;
-            float dX;
-            float dY;
-            int outputHeight;
-            int addPairHeight;
-
+            float pos;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
-                        moving = false;
-                        touchPoint = event.getX();
-                        addPairHeight = addPairButton.getHeight();
-                        outputHeight = output.getHeight();
-                        x = addPairButton.getX();
-                        y = addPairButton.getY();
-                        dX = addPairButton.getX() - event.getRawX();
-                        dY = addPairButton.getY() - event.getRawY();
+                        if(initScrollViewHeight == 0)
+                            initScrollViewHeight = scrollView.getHeight();
+                        View focus = getActivity().getCurrentFocus();
+                        if (focus != null)
+                            imm.hideSoftInputFromWindow(focus.getWindowToken(), 0);
 
+                        output.scrollTo(0,0);
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        float changeInY = event.getRawY() + dY;
+                        pos = clamp(
+                                event.getRawY()-(((View)view.getParent()).getY())-bottomBorder.getHeight(),
+                                initScrollViewHeight,
+                                (((View)view.getParent()).getHeight())-bottomBorder.getHeight()
+                        );
 
-                        if (changeInY - y > 50 || moving) {
-                            if (!moving) {
-                                input.setFocusableInTouchMode(false);
-                                input.setFocusable(false);
-                                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                            }
-                            moving = true;
-                            output.scrollTo(0,0);
-                            addPairButton.animate()
-                                    .y(event.getRawY() + dY)
-                                    .setDuration(0)
-                                    .start();
+                        scrollView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,(int)pos));
 
-                            output.setHeight(outputHeight + (int) changeInY - addPairButton.getHeight());
-                        }
                         break;
-
                     case MotionEvent.ACTION_UP:
                         v.setPressed(false);
 
-                        if(moving) {
-                            if (addPairHeight > addPairButton.getHeight()) {
-                                Globals.expanded = true;
-                                output.setHeight(expandCont.getHeight());
-                            } else {
-                                resetExpandCont();
-                                Globals.expanded = false;
-                            }
-                            if (!Globals.expanded) {
-                                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-                                input.setFocusableInTouchMode(true);
-                                input.setFocusable(true);
-                            }
+                        if(scrollView.getLayoutParams().height < initScrollViewHeight + 200){
+                            scrollView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,initScrollViewHeight));
+                            Globals.expanded = false;
+
+                            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
                         }
-                        else {
-                            String inputText = input.getText().toString();
-                            String outputText = output.getText().toString();
-                            if(!inputText.isEmpty() && inputText.trim().length() > 0) {
-                                addWordPair(inputText, outputText, MainFragmentActivity.defaultLang);
-                                animate(addPairButton);
-                            }
-                        }
-                        moving = false;
+                        else
+                            Globals.expanded = true;
 
                         break;
                     default:
@@ -470,7 +352,10 @@ public class FirstFragment extends Fragment {
             }
         });
     }
-    */
+
+    public static float clamp(float val, float min, float max) {
+        return Math.max(min, Math.min(max, val));
+    }
 
     private void animate(final ImageButton imageButton){
         int colorFrom = getResources().getColor(R.color.anim_color,null);
@@ -497,29 +382,6 @@ public class FirstFragment extends Fragment {
         colorAnimation.start();
     }
 
-
-
-    private void resetExpandCont(){
-        String outputText = output.getText().toString();
-        expandCont.removeAllViews();
-        View newCont = View.inflate(getActivity(),R.layout.expandtextview_inflater, null);
-
-        addPairButton = (ImageButton) newCont.findViewById(R.id.addpair_button);
-        output = (TextView) newCont.findViewById(R.id.output_text);
-
-        output.setText(outputText);
-
-        output.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainFragmentActivity.copyToClipboard(getActivity(),output.getText().toString());
-            }
-        });
-        output.setMovementMethod(new ScrollingMovementMethod());
-
-        expandCont.addView(newCont);
-    }
-
     private void addWordPair(String inputText, String outputText, String inputLanguage){
         if(inputLanguage == "en") {
             db.insertValueToTable(inputText,outputText);
@@ -539,6 +401,9 @@ public class FirstFragment extends Fragment {
         b.putString("msg", text);
 
         f.setArguments(b);
+
+
+
 
         return f;
     }

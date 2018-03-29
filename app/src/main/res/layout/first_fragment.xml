@@ -130,34 +130,44 @@
         android:textColor="?android:colorPrimary"
         android:textAlignment="center"
         android:textSize="25sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginBottom="15dp"/>
 
 
     <LinearLayout
         android:id="@+id/expand_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1">
+        android:orientation="vertical">
 
-        <com.production.outlau.translate.CustomTextView
-            android:id="@+id/output_text"
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:minHeight="100dp">
+
+                <com.production.outlau.translate.CustomTextView
+                    android:id="@+id/output_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="left"
+                    android:hint="Translation"
+                    android:scrollbars="vertical"
+                    android:textColor="?android:colorPrimary"
+                    android:textColorHint="?android:hint"
+                    android:textSize="25sp" />
+        </ScrollView>
+
+        <TextView
+            android:text="DDD "
+            android:id="@+id/bottom_border"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/bottom_border"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:gravity="left"
-            android:hint="Translation"
-            android:textColor="?android:colorPrimary"
-            android:maxLines="2"
-            android:paddingTop="10dp"
-            android:scrollbars="vertical"
-            android:textColorHint="?android:hint"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:background="@drawable/bottom_border"/>
 
 
 

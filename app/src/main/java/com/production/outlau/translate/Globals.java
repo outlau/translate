@@ -25,9 +25,6 @@ public class Globals {
 
     public static boolean expanded = false;
 
-    public static final String FIRST_COLUMN="First";
-    public static final String SECOND_COLUMN="Second";
-
     public static Hashtable<String, String> languages = new Hashtable<String, String>() {
         {
             put("auto", "Automatic");

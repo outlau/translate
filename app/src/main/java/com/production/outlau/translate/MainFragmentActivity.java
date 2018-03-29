@@ -76,8 +76,6 @@ public class MainFragmentActivity extends FragmentActivity
         if(defaultLangStr.matches("sv"))
             switchLangs();
 
-        System.out.println("DEFAULT : "+defaultLangStr);
-
         final ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -88,15 +86,15 @@ public class MainFragmentActivity extends FragmentActivity
 
             @Override
             public void onPageSelected(int position) {
-                System.out.println("PAGE SELECT: " + position);
-                if(!Globals.expanded) {
-                    if (position == 1) {
-                        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-                    } else if (position == 0) {
-                        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-                        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                if (position == 1) {
+                    View ed = findViewById(R.id.input_edittext);
+                    imm.hideSoftInputFromWindow(ed.getWindowToken(), 0);
+                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                } else if (position == 0) {
+                    if (!Globals.expanded) {
+                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
                     }
+                    drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                 }
             }
 
@@ -117,7 +115,7 @@ public class MainFragmentActivity extends FragmentActivity
 
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                if(!navBarOpen) {
+                if(!Globals.expanded && !navBarOpen){
                     navBarOpen = true;
                     imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                 }
@@ -130,7 +128,7 @@ public class MainFragmentActivity extends FragmentActivity
             @Override
             public void onDrawerClosed(View drawerView) {
 
-                if(!deleteDataDialogOpen)
+                if(!Globals.expanded && navBarOpen)
                     closeNavBar();
 
             }
@@ -163,32 +161,6 @@ public class MainFragmentActivity extends FragmentActivity
         }
     }
 
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-    */
-/*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-*/
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -199,17 +171,14 @@ public class MainFragmentActivity extends FragmentActivity
             TypedValue outValue = new TypedValue();
             getTheme().resolveAttribute(R.attr.themeName, outValue, true);
             if ("dark".equals(outValue.string)) {
-                //super.getTheme().applyStyle(R.style.AppTheme_Light,true);
                 System.out.println("DARK");
                 editor.putString("theme", "light");
                 editor.commit();
             }
             else{
-                //super.getTheme().applyStyle(R.style.AppTheme_Dark,true);
                 editor.putString("theme", "dark");
                 editor.commit();
                 System.out.println("LIGHT");
-
             }
 
             Intent intent = getIntent();
@@ -315,8 +284,6 @@ public class MainFragmentActivity extends FragmentActivity
         public int getCount() {
             return 2;
         }
-
-
     }
 
     public static void switchLangs(){
@@ -332,5 +299,4 @@ public class MainFragmentActivity extends FragmentActivity
         android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
         clipboard.setPrimaryClip(clip);
     }
-
 }
