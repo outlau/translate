@@ -35,7 +35,7 @@ public class FirstFragment extends Fragment {
     int initScrollViewHeight;
     ImageButton langSwitch;
     ImageButton inputClearButton;
-    ImageButton addPairButton;
+    public static ImageButton addPairButton;
     ImageButton inputCopy;
     ImageButton inputPaste;
     ImageButton navBarToggleButton;
@@ -43,7 +43,9 @@ public class FirstFragment extends Fragment {
     static TextView inputTextView;
     static TextView outputTextView;
 
-    boolean checkAdded = false;
+    public static boolean checkAdded = false;
+
+    boolean cannotAddPair = false;
 
     static Translator translator = new Translator();
 
@@ -86,6 +88,8 @@ public class FirstFragment extends Fragment {
         navBarToggleButton = (ImageButton)layout.findViewById(R.id.nav_bar_toggle_button);
         bottomBorder = (TextView)layout.findViewById(R.id.bottom_border);
         scrollView = (ScrollView)layout.findViewById(R.id.scroll_view);
+
+        initScrollViewHeight = (int)getResources().getDimension(R.dimen.scrollview_init_height);
 
         updateTextUI();
 
@@ -135,6 +139,7 @@ public class FirstFragment extends Fragment {
             }
         });
 
+
         onTouchListen(inputClearButton);
         inputClearButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,7 +187,7 @@ public class FirstFragment extends Fragment {
              public void onClick(View v) {
                  String inputText = input.getText().toString();
                  String outputText = output.getText().toString();
-                 if (!inputText.isEmpty() && inputText.trim().length() > 0 && !checkAdded && !translator.getIsMyAsyncTaskRunning()) {
+                 if (!inputText.isEmpty() && inputText.trim().length() > 0 && !checkAdded && !translator.getIsMyAsyncTaskRunning() && !cannotAddPair) {
                      addWordPair(inputText, outputText, MainFragmentActivity.defaultLang);
                      addWordPairAnim(new ArrayList<>(animations));
 
@@ -238,9 +243,11 @@ public class FirstFragment extends Fragment {
     }
 
     public static void updateTextUI(){
+        String outputText = output.getText().toString();
         inputTextView.setText(Globals.languages.get(MainFragmentActivity.defaultLang));
         outputTextView.setText(Globals.languages.get(MainFragmentActivity.secondLang));
-        input.setText(output.getText().toString());
+        input.setText(outputText);
+        input.setSelection(outputText.length());
     }
 
     private void onTouchListen(final View view) {
@@ -318,8 +325,6 @@ public class FirstFragment extends Fragment {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         v.setPressed(true);
-                        if(initScrollViewHeight == 0)
-                            initScrollViewHeight = scrollView.getHeight();
                         View focus = getActivity().getCurrentFocus();
                         if (focus != null)
                             imm.hideSoftInputFromWindow(focus.getWindowToken(), 0);

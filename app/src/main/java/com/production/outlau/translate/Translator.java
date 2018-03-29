@@ -76,6 +76,16 @@ public class Translator {
 			updateTextView(translation);
 			return translation;
 		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			for (WordPair wordpair:SecondFragment.list) {
+				if(inputs[2].toLowerCase().matches(wordpair.leftWord.toLowerCase())){
+					FirstFragment.addPairButton.setImageDrawable(thisActivity.getResources().getDrawable(R.drawable.icon_check, thisActivity.getTheme()));
+					FirstFragment.checkAdded = true;
+				}
+			}
+		}
 	}
 
 	public String callYandexUrlAndParseResult(String langFrom, String langTo,
@@ -96,7 +106,6 @@ public class Translator {
 			URL url = new URL(urlStr);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.connect();
-
 
 			InputStream stream = connection.getInputStream();
 
@@ -134,7 +143,6 @@ public class Translator {
 			}
 		}
 			return "Unknown error. Use google translate instead.";
-
 	}
 
 	private String parseYandexResult(String inputJson) throws Exception

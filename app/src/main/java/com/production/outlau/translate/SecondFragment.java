@@ -32,7 +32,7 @@ public class SecondFragment extends ListFragment {
 
     static ListViewAdapter adapter;
 
-    static ArrayList<WordPair> list;
+    public static ArrayList<WordPair> list;
 
     private TextView listLangSwap;
 

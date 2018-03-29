@@ -153,8 +153,8 @@
         <ScrollView
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:minHeight="100dp">
+            android:layout_height="@dimen/scrollview_init_height"
+            android:minHeight="@dimen/scrollview_init_height">
 
                 <com.production.outlau.translate.CustomTextView
                     android:id="@+id/output_text"
