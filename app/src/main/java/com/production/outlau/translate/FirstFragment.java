@@ -199,7 +199,14 @@ public class FirstFragment extends Fragment {
         });
 
         onTouchExpand(bottomBorder);
+
         output.setMovementMethod(new ScrollingMovementMethod());
+        output.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainFragmentActivity.copyToClipboard(getContext(),output.getText().toString());
+            }
+        });
 
         return layout;
     }
