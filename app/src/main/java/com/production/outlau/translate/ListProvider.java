@@ -1,7 +1,5 @@
 package com.production.outlau.translate;
 
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;

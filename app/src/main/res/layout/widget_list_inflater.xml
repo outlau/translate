@@ -43,5 +43,4 @@
         android:textColor="@color/background">
 
     </TextView>
-
 </LinearLayout>

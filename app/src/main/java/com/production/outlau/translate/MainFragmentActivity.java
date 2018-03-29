@@ -1,6 +1,8 @@
 package com.production.outlau.translate;
-
+/*
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -39,6 +41,40 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import static android.content.ClipDescription.MIMETYPE_TEXT_PLAIN;
+*/
+
+
+import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.support.annotation.ColorInt;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
+
+import static android.content.ClipDescription.MIMETYPE_TEXT_PLAIN;
 
 public class MainFragmentActivity extends FragmentActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -87,7 +123,7 @@ public class MainFragmentActivity extends FragmentActivity
             @Override
             public void onPageSelected(int position) {
                 if (position == 1) {
-                    View ed = findViewById(R.id.input_edittext);
+                    View ed = findViewById(R.id.input_edit_text);
                     imm.hideSoftInputFromWindow(ed.getWindowToken(), 0);
                     drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 } else if (position == 0) {
@@ -115,21 +151,29 @@ public class MainFragmentActivity extends FragmentActivity
 
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                if(!Globals.expanded && !navBarOpen){
+
+                View ed = findViewById(R.id.input_edit_text);
+                imm.hideSoftInputFromWindow(ed.getWindowToken(), 0);
+
+                /*if(!Globals.expanded && !navBarOpen){
                     navBarOpen = true;
                     imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                }
+                }*/
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
+                navBarOpen = true;
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
 
-                if(!Globals.expanded && navBarOpen)
+                if(!Globals.expanded && navBarOpen && !deleteDataDialogOpen)
                     closeNavBar();
+
+                System.out.println("NAVBAR : "+navBarOpen);
+                System.out.println("EXPANDED : "+Globals.expanded);
 
             }
 
@@ -147,7 +191,7 @@ public class MainFragmentActivity extends FragmentActivity
     private void closeNavBar(){
 
         navBarOpen = false;
-        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         System.out.println("CLOSE");
     }
 
@@ -226,7 +270,8 @@ public class MainFragmentActivity extends FragmentActivity
                 @Override
                 public void onDismiss(DialogInterface dialog) {
                     deleteDataDialogOpen = false;
-                    closeNavBar();
+                    if(!Globals.expanded)
+                        closeNavBar();
                 }
             });
             customDialog.show();
@@ -298,5 +343,28 @@ public class MainFragmentActivity extends FragmentActivity
         android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
         clipboard.setPrimaryClip(clip);
+    }
+
+    public static String pasteFromClipboard(Context context){
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        String pasteData = "";
+
+        // If it does contain data, decide if you can handle the data.
+        if (!(clipboard.hasPrimaryClip())) {
+
+
+        } else if (!(clipboard.getPrimaryClipDescription().hasMimeType(MIMETYPE_TEXT_PLAIN))) {
+            // since the clipboard has data but it is not plain text
+
+        } else {
+
+            //since the clipboard contains plain text.
+            ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
+
+            // Gets the clipboard as text.
+            pasteData = item.getText().toString();
+        }
+        System.out.println("PASTE DATA " +pasteData);
+        return pasteData;
     }
 }

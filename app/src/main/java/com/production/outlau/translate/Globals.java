@@ -2,10 +2,6 @@ package com.production.outlau.translate;
 
 import java.util.Hashtable;
 
-/**
- * Created by outlau on 12/6/17.
- */
-
 public class Globals {
 
     //TODO

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -43,16 +44,25 @@
         android:weightSum="1">
 
         <com.production.outlau.translate.CustomEditText
-            android:id="@+id/input_edittext"
+            android:id="@+id/input_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".9"
+            android:layout_weight=".8"
             android:ems="10"
             android:hint="Enter Text"
             android:inputType="text"
             android:textColor="?android:colorPrimary"
             android:textColorHint="?android:hint"
             android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/input_paste"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|clip_horizontal"
+            android:layout_weight=".1"
+            android:background="@color/transparent"
+            android:src="@drawable/icon_paste" />
 
         <ImageButton
             android:id="@+id/input_copy"
@@ -162,223 +172,13 @@
         </ScrollView>
 
         <TextView
-            android:text="DDD "
             android:id="@+id/bottom_border"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:background="@drawable/bottom_border"/>
-
-
-
-    </LinearLayout>
-
-    <TableRow
-        android:id="@+id/addpair_cont"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".1">
-
-        <TableRow
-            android:id="@+id/output_cont"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-        </TableRow>
-    </TableRow>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:weightSum="1">
-
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    </TableRow>
-
-</LinearLayout>
-<!--<?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context="com.production.outlau.translate.MainFragmentActivity">
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.production.outlau.translate.CustomTextView
-            android:id="@+id/input_lang_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/language_border"
-            android:padding="10dp"
-            android:text="English"
-            android:textAlignment="center"
-            android:textColor="@color/text"
-            android:textSize="25sp"
-            android:textStyle="bold"/>
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="5dp"
-        android:paddingTop="10dp"
-        android:weightSum="1">
-
-        <com.production.outlau.translate.CustomEditText
-            android:id="@+id/input_edittext"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".65"
-            android:ems="10"
-            android:hint="Enter Text"
-            android:inputType="text"
-            android:textColor="@color/edit_text"
-            android:textColorHint="@color/text"
-            android:textSize="20sp" />
-
-        <ImageButton
-            android:id="@+id/input_copy"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center_vertical|clip_horizontal"
-            android:layout_weight=".15"
-            android:background="@color/background"
-            android:src="@drawable/copy_icon" />
-
-        <com.production.outlau.translate.CustomButton
-            android:id="@+id/input_clear"
-            style="@style/customButtonLight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".2"
-            android:backgroundTint="@color/button"
-            android:text="Clear"
-            android:textColor="@color/button_text" />
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
-
-
-        <com.production.outlau.translate.CustomButton
-            android:id="@+id/lang_swap"
-            style="@style/customButton"
-            android:layout_weight="1"
-            android:backgroundTint="@android:color/white"
-            android:text="SWAP"
-            android:textColor="@color/button_text" />
-
-        <com.production.outlau.translate.CustomButton
-        android:id="@+id/addpair_button"
-        style="@style/customButton"
-        android:layout_weight="1"
-        android:backgroundTint="@android:color/white"
-        android:text="SWAP"
-        android:textColor="@color/button_text" />
-
-
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
-
-        <com.production.outlau.translate.CustomTextView
-            android:id="@+id/output_lang_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_weight="1"
-            android:background="@drawable/language_border"
-            android:padding="10dp"
-            android:text="Swedish"
-            android:textAlignment="center"
-            android:textColor="@color/text"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-
-    </TableRow>
-
-
-    <LinearLayout
-        android:id="@+id/expand_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1">
-
-        <com.production.outlau.translate.CustomTextView
-            android:id="@+id/output_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/bottom_border"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:gravity="left"
-            android:hint="Translation"
-            android:maxLines="2"
-            android:paddingTop="10dp"
-            android:scrollbars="vertical"
-            android:textColor="@color/edit_text"
-            android:textColorHint="@color/hint_color"
+            android:background="@drawable/gradient_border"
+            android:text=" "
             android:textSize="25sp" />
 
-
-
     </LinearLayout>
 
-    <TableRow
-        android:id="@+id/addpair_cont"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".1">
-
-        <TableRow
-            android:id="@+id/output_cont"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-        </TableRow>
-    </TableRow>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:weightSum="1">
-
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    </TableRow>
-
-</TableLayout>
--->
+</LinearLayout>

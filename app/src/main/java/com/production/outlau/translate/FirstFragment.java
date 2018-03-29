@@ -1,30 +1,17 @@
 package com.production.outlau.translate;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.app.AlertDialog;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.ColorInt;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.GestureDetectorCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.MovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.util.TypedValue;
-import android.view.DragEvent;
-import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -33,24 +20,15 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RemoteViews;
 import android.widget.ScrollView;
-import android.widget.TableRow;
 import android.widget.TextView;
 
-
-import java.util.*;
-import java.lang.*;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class FirstFragment extends Fragment {
-
     static EditText input;
     static TextView output;
     TextView bottomBorder;
@@ -59,6 +37,7 @@ public class FirstFragment extends Fragment {
     ImageButton inputClearButton;
     ImageButton addPairButton;
     ImageButton inputCopy;
+    ImageButton inputPaste;
     ImageButton navBarToggleButton;
 
     static TextView inputTextView;
@@ -95,12 +74,13 @@ public class FirstFragment extends Fragment {
 
         imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        input = (EditText)layout.findViewById(R.id.input_edittext);
+        input = (EditText)layout.findViewById(R.id.input_edit_text);
         output = (TextView)layout.findViewById(R.id.output_text);
         langSwitch = (ImageButton)layout.findViewById(R.id.lang_swap);
         inputClearButton= (ImageButton)layout.findViewById(R.id.input_clear);
         addPairButton = (ImageButton)layout.findViewById(R.id.addpair_button);
         inputCopy = (ImageButton)layout.findViewById(R.id.input_copy);
+        inputPaste = (ImageButton)layout.findViewById(R.id.input_paste);
         inputTextView = (TextView)layout.findViewById(R.id.input_lang_text);
         outputTextView = (TextView)layout.findViewById(R.id.output_lang_text);
         navBarToggleButton = (ImageButton)layout.findViewById(R.id.nav_bar_toggle_button);
@@ -119,7 +99,6 @@ public class FirstFragment extends Fragment {
                 SecondFragment.updateTextUI();
             }
         });
-
 
         input.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,9 +148,6 @@ public class FirstFragment extends Fragment {
             }
         });
 
-        onTouchExpand(bottomBorder);
-        output.setMovementMethod(new ScrollingMovementMethod());
-
         onTouchListen(inputCopy);
         inputCopy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,6 +156,23 @@ public class FirstFragment extends Fragment {
                 Animation anim =
                         AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
                 inputCopy.startAnimation(anim);
+            }
+        });
+
+        onTouchListen(inputPaste);
+        inputPaste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String inputStr = input.getText().toString();
+                int inputStart = input.getSelectionStart();
+                String startStr = inputStr.substring(0,inputStart);
+                String pasteStr = MainFragmentActivity.pasteFromClipboard(getContext());
+                String endStr = inputStr.substring(input.getSelectionEnd(),inputStr.length());
+                String str = startStr +
+                                pasteStr +
+                                endStr;
+                input.setText(str);
+                input.setSelection(inputStart+pasteStr.length());
             }
         });
 
@@ -192,6 +185,7 @@ public class FirstFragment extends Fragment {
                  if (!inputText.isEmpty() && inputText.trim().length() > 0 && !checkAdded && !translator.getIsMyAsyncTaskRunning()) {
                      addWordPair(inputText, outputText, MainFragmentActivity.defaultLang);
                      addWordPairAnim(new ArrayList<>(animations));
+
                  }
              }
         });
@@ -203,6 +197,9 @@ public class FirstFragment extends Fragment {
                 MainFragmentActivity.drawer.openDrawer(Gravity.LEFT);
             }
         });
+
+        onTouchExpand(bottomBorder);
+        output.setMovementMethod(new ScrollingMovementMethod());
 
         return layout;
     }
@@ -395,16 +392,10 @@ public class FirstFragment extends Fragment {
     }
 
     public static FirstFragment newInstance(String text) {
-
         FirstFragment f = new FirstFragment();
         Bundle b = new Bundle();
         b.putString("msg", text);
-
         f.setArguments(b);
-
-
-
-
         return f;
     }
 }
