@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/app_icon"
+        android:icon="@mipmap/icon_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/app_icon"
+        android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Light">
         <activity android:name=".MainFragmentActivity">
@@ -18,7 +18,7 @@
         </activity>
 
         <receiver
-            android:icon="@mipmap/app_icon"
+            android:icon="@mipmap/icon_logo"
             android:label="Translate Widget"
             android:name="Widget" >
             <intent-filter >
