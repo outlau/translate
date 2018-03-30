@@ -1,0 +1,20 @@
+<vector
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:name="halfCircle2">
+        <path
+            android:strokeWidth="1"
+            android:strokeColor="?android:colorPrimary"
+            android:pathData="M16,8 C16,8,8,8,8,16 M24,16 C24,16,24,8,16,8 M16,24 C16,24,24,24,24,16 M8,16 C8,16,8,24,16,24"/>
+    </group>
+    <group android:name="T">
+        <path
+            android:strokeWidth="1.5"
+            android:strokeColor="?android:colorPrimary"
+            android:pathData="M11,12 L21,12 M16,12 L16,22 "/>
+    </group>
+</vector>

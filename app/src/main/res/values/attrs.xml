@@ -8,4 +8,5 @@
     <attr name="changeThemeImg" format="reference"/>
     <attr name="changeThemeText" format="reference"/>
     <attr name="themeName" format="reference"/>
+
 </resources>

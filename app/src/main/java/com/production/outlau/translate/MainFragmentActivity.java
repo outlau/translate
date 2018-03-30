@@ -67,6 +67,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -93,6 +94,8 @@ public class MainFragmentActivity extends FragmentActivity
     InputMethodManager imm;
 
     AppDatabase db;
+
+    MenuItem switchApiItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,6 +189,11 @@ public class MainFragmentActivity extends FragmentActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Menu menuNav = navigationView.getMenu();
+
+        switchApiItem = menuNav.findItem(R.id.nav_change_api);
+        setTranslationAPI();
+
     }
 
     private void closeNavBar(){
@@ -277,8 +285,10 @@ public class MainFragmentActivity extends FragmentActivity
             customDialog.show();
 
         }
-        /*else if (id == R.id.nav_gallery) {
-
+        else if (id == R.id.nav_change_api) {
+            switchTranslationAPI();
+        }
+        /*
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -292,6 +302,38 @@ public class MainFragmentActivity extends FragmentActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void switchTranslationAPI(){
+
+        String apiStr = sp.getString("api","google");
+        System.out.println("API STR : "+apiStr);
+        if(apiStr.matches("google")){
+
+            apiStr = "yandex";
+            System.out.println("API STR GOOGLE : "+apiStr);
+            editor.putString("api", apiStr);
+        }else{
+            apiStr = "google";
+            System.out.println("API STR YANDEX : "+apiStr);
+            editor.putString("api", apiStr);
+        }
+        editor.commit();
+        setTranslationAPI();
+
+    }
+
+    private void setTranslationAPI(){
+        String StringApiToUse = sp.getString("api","google")+"_api";
+        String DrawableApiToUse = "icon_"+sp.getString("api","google");
+        String packageName = getPackageName();
+        int strResId = getResources().getIdentifier(StringApiToUse, "string", packageName);
+        int drawableResId = getResources().getIdentifier(DrawableApiToUse, "drawable", packageName);
+        System.out.println("GET STRING : "+getString(strResId));
+        System.out.println("GET DRAWALE : "+getString(drawableResId));
+        System.out.println("ITEM : " +switchApiItem);
+        switchApiItem.setTitle(getResources().getString(strResId));
+        switchApiItem.setIcon(getResources().getDrawable(drawableResId,getTheme()));
     }
 
     private int getStyle(String theme){

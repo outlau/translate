@@ -6,6 +6,10 @@
     <item android:title="Settings">
         <menu>
             <item
+                android:id="@+id/nav_change_api"
+                android:icon="@drawable/icon_google"
+                android:title="TITLE" />
+            <item
                 android:id="@+id/nav_change_theme"
                 android:icon="?attr/changeThemeImg"
                 android:title="?attr/changeThemeText" />

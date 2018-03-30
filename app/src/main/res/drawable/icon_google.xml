@@ -1,0 +1,24 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportHeight="32.0"
+    android:viewportWidth="32.0">
+
+
+  <group android:name="part1">
+    <path
+        android:name="tick"
+        android:fillColor="?android:colorPrimary"
+        android:pathData="M16,20 L20,2 l4,0 L18,26 z
+M15,23 L8,4 l4,0 L17.5,21"/>
+  </group>
+  <group android:name="part2">
+    <path
+        android:name="tick"
+        android:fillColor="?android:colorPrimary"
+        android:pathData="M15,20 l0,15 l3.7,0 L18.7,17"/>
+  </group>
+
+
+
+</vector>

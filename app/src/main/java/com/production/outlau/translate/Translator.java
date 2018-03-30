@@ -5,13 +5,10 @@ import android.os.AsyncTask;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -67,7 +64,10 @@ public class Translator {
 
 			String translation;
 			try{
-				translation = callYandexUrlAndParseResult(inputs[0],inputs[1],inputs[2]); // Language from, Language to, Phrase
+				if(MainFragmentActivity.sp.getString("api",thisActivity.getResources().getString(R.string.default_api)).matches("google"))
+					translation = callGoogleUrlAndParseResult(inputs[0],inputs[1],inputs[2]); // Language from, Language to, Phrase
+				else
+					translation = callYandexUrlAndParseResult(inputs[0],inputs[1],inputs[2]); // Language from, Language to, Phrase
 
 			}
 			catch (Exception e){
@@ -181,8 +181,6 @@ public class Translator {
 
 	}
 
-
-
 	public String callGoogleUrlAndParseResult(String langFrom, String langTo,
 										String word) throws Exception
 	{
@@ -194,18 +192,27 @@ public class Translator {
 				"&dt=t&q=" + URLEncoder.encode(word, "UTF-8");
 
 		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		con.setRequestProperty("User-Agent", "Mozilla/5.0");
+		StringBuffer response = null;
 
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
+		try {
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			con.setRequestProperty("User-Agent", "Mozilla/5.0");
 
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
 		}
-		in.close();
+		catch (InterruptedIOException e){
+			return outputTextView.getText().toString()+"...";
+		}catch (UnknownHostException e){
+			return "Cannot connect to server";
+		}
 
 		return parseGoogleResult(response.toString());
 	}
@@ -215,8 +222,6 @@ public class Translator {
 		JSONArray jsonArray = new JSONArray(inputJson);
 		JSONArray jsonArray2 = (JSONArray) jsonArray.get(0);
 		JSONArray jsonArray3 = (JSONArray) jsonArray2.get(0);
-
-		System.out.println("json ARRAY : "+jsonArray);
 
 		return jsonArray3.get(0).toString();
 	}

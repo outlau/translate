@@ -5,12 +5,15 @@
     <string name="openNavBar">Open Nav Bar</string>
     <string name="closeNavBar">Close Nav Bar</string>
 
-
     <string name="change_to_dark">Switch to dark theme</string>
     <string name="change_to_light">Switch to light theme</string>
 
-
     <string name="darkThemeName">dark</string>
     <string name="lightThemeName">light</string>
+
+    <string name="google_api">Switch to yandex api</string>
+    <string name="yandex_api">Switch to google api</string>
+
+    <string name="default_api">google</string>
 
 </resources>
